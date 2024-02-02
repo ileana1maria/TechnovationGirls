@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -40,7 +42,8 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+    //"1.5.1"
+        kotlinCompilerExtensionVersion = "compose_version"
     }
     packaging {
         resources {
@@ -69,4 +72,17 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation ("androidx.navigation:navigation-compose: 2.4.0-alpha06")
+
+    // Compose dependencies
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-beta01")
+    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha09")
+    //implementation ("androidx.compose.material:material-icons-extended:$compose_version")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+
+    // Room
+    implementation ("androidx.room:room-runtime:2.3.0")
+    kapt ("androidx.room:room-compiler:2.3.0")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation ("androidx.room:room-ktx:2.3.0")
 }
