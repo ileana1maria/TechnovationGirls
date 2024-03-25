@@ -1,8 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-android")
-    id ("kotlin-kapt")
+    // Stuff for realm
+    id("io.realm.kotlin")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,10 +42,11 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
     //"1.5.1"
-        kotlinCompilerExtensionVersion = "compose_version"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -62,7 +65,12 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-runtime-ktx:2.7.6")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -73,16 +81,18 @@ dependencies {
 
     implementation ("androidx.navigation:navigation-compose: 2.4.0-alpha06")
 
-    // Compose dependencies
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-beta01")
-    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha09")
-    //implementation ("androidx.compose.material:material-icons-extended:$compose_version")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+//    // Compose dependencies
+//    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-beta01")
+//    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha09")
+//    //implementation ("androidx.compose.material:material-icons-extended:$compose_version")
 
-    // Room
-    implementation ("androidx.room:room-runtime:2.3.0")
-    kapt ("androidx.room:room-compiler:2.3.0")
+    //Mongo Realm
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+    implementation("io.realm.kotlin:library-base:1.11.0")
 
-    // Kotlin Extensions and Coroutines support for Room
-    implementation ("androidx.room:room-ktx:2.3.0")
+    //Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.49")
+    kapt("com.google.dagger:hilt-android-compiler:2.49")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
 }

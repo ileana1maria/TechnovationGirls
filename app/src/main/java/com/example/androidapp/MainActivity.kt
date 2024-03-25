@@ -25,8 +25,10 @@ import com.example.androidapp.ui.navbar.BottomNavigationBar
 import com.example.androidapp.ui.navbar.NavItem
 import com.example.androidapp.ui.navbar.Navigation
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
