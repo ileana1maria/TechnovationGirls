@@ -184,18 +184,17 @@ fun JournalingContent(
                     Text(text = if(filtered) "Clear" else "Filter")
                 }
             }
-        }
+            Spacer(modifier = Modifier.height(24.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // This is the list of items
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(items = data, key = { it._id.toHexString() }) {
-                NoteView (
-                    id = it._id.toHexString(),
-                    title = it.title,
-                    timestamp = it.timestamp
-                )
+            // This is the list of items
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                items(items = data, key = { it._id.toHexString() }) {
+                    NoteView (
+                        id = it._id.toHexString(),
+                        title = it.title,
+                        timestamp = it.timestamp
+                    )
+                }
             }
         }
     }
