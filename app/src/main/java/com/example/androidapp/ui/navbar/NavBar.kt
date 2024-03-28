@@ -26,7 +26,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-//import com.example.androidapp.ui.journalingscreen.JournalingActivity
+import com.example.androidapp.ui.journalingscreen.JournalingUiComposable
 
 import com.example.androidapp.ui.theme.IconColor
 import com.example.androidapp.ui.theme.IndicatorColor
@@ -58,7 +58,6 @@ fun Navigation(navController: NavHostController) {
 //            // Start the Journaling Activity
 //            val intent = Intent(context, JournalingActivity::class.java)
 //            context.startActivity(intent)
-
             JournalingScreenComposable()
         }
 

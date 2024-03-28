@@ -30,8 +30,9 @@ class MongoRepositoryImpl {
             realm.write {
                 val queriedNote = query<Note>(query = "_id == $0", note._id)
                     .first().find()
-                //queriedNote?.journal = note.journal
+                queriedNote?.journal = note.journal
                 queriedNote?.title = note.title
+
             }
         }
 

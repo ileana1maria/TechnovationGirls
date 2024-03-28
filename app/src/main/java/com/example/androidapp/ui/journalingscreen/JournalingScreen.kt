@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.androidapp.ui.journalingscreen.JournalingViewModel
+import com.example.androidapp.ui.journalingscreen.MoodComposable
+import com.example.androidapp.ui.journalingscreen.SymptomsComposable
 import com.example.androidapp.ui.journalingscreen.model.Note
 import io.realm.kotlin.types.RealmInstant
 import java.text.SimpleDateFormat
@@ -46,6 +49,7 @@ fun JournalingScreenComposable() {
         data = data,
         filtered = viewModel.filtered.value,
         title = viewModel.title.value,
+        journal = viewModel.journal.value,
         objectId = viewModel.objectId.value,
         onTitleChanged = { viewModel.updateTitle(title = it) },
         onObjectIdChanged = { viewModel.updateObjectId(id = it) },
@@ -62,6 +66,7 @@ fun JournalingScreen(
     data: List<Note>,
     filtered: Boolean,
     title: String,
+    journal: String,
     objectId: String,
     onTitleChanged: (String) -> Unit,
     onObjectIdChanged: (String) -> Unit,
@@ -76,6 +81,7 @@ fun JournalingScreen(
                 data = data,
                 filtered = filtered,
                 title = title,
+                journal = journal,
                 objectId = objectId,
                 onTitleChanged = onTitleChanged,
                 onObjectIdChanged = onObjectIdChanged,
@@ -93,6 +99,7 @@ fun JournalingContent(
     data: List<Note>,
     filtered: Boolean,
     title: String,
+    journal: String,
     objectId: String,
     onTitleChanged: (String) -> Unit,
     onObjectIdChanged: (String) -> Unit,
@@ -101,6 +108,7 @@ fun JournalingContent(
     onDeleteClicked: () -> Unit,
     onFilterClicked: () -> Unit
 ) {
+    //
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -108,8 +116,27 @@ fun JournalingContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Column {
+        // This column holds the 2 text fields and the row of buttons
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()) // Enable scrolling
+                .padding(5.dp)
+        ) {
+            // This holds the two Mood and Symptoms cards
+            Column (
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                MoodComposable()
+                Spacer(modifier = Modifier.width(10.dp))
+                SymptomsComposable()
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+            // This row is so that the text fields are next to each other horizontally
             Row {
+
+                // This is the first text field that has the object id
                 TextField(
                     modifier = Modifier.weight(1f),
                     value = objectId,
@@ -118,6 +145,8 @@ fun JournalingContent(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
 
+
+                // This is the second text field that has the Title text field
                 TextField(
                     modifier = Modifier.weight(1f),
                     value = title,
@@ -126,8 +155,10 @@ fun JournalingContent(
 
                 )
             }
+
             Spacer(modifier = Modifier.height(24.dp))
 
+            // This is the row that has the buttons
             Row (
                 modifier = Modifier
                     .fillMaxWidth()
@@ -154,8 +185,10 @@ fun JournalingContent(
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(24.dp))
 
+        // This is the list of items
         LazyColumn(modifier = Modifier.weight(1f)) {
             items(items = data, key = { it._id.toHexString() }) {
                 NoteView (

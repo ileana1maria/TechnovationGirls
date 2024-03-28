@@ -34,6 +34,10 @@ class JournalingViewModel @Inject constructor(
         this.title.value = title
     }
 
+    fun updateJournal(journal: String) {
+        this.journal.value = journal
+    }
+
     fun updateObjectId(id: String) {
         this.objectId.value = id
     }
@@ -82,9 +86,9 @@ class JournalingViewModel @Inject constructor(
                 repository.filterData(title = title.value,
                     journal = journal.value)
                     .collect {
-                    filtered.value = true
-                    data.value = it
-                }
+                        filtered.value = true
+                        data.value = it
+                    }
             }
         }
     }
