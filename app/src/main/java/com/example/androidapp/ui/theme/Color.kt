@@ -13,3 +13,8 @@ val NavBarColor = Color(4286945648)
 val IconColor = Color(4280632371)
 val SelectedIconColor = Color(4294308318)
 val IndicatorColor = Color(4280632371)
+
+val MoodCompColor = Color(4291157476)
+val SymptomsCompColor = Color(4291552453)
+val JournalingCompColor = Color(4290630311)
+val DarkGreyGreenColor = Color(4284639578)

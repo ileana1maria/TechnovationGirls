@@ -1,6 +1,9 @@
 package com.example.myapplication.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,34 +13,39 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.androidapp.ui.journalingscreen.JournalingViewModel
 import com.example.androidapp.ui.journalingscreen.MoodComposable
+import com.example.androidapp.ui.journalingscreen.QuestionMarkWithTooltip
 import com.example.androidapp.ui.journalingscreen.SymptomsComposable
 import com.example.androidapp.ui.journalingscreen.model.Note
-import io.realm.kotlin.types.RealmInstant
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.util.Date
-import java.util.Locale
+import com.example.androidapp.ui.theme.DarkGreyGreenColor
+import com.example.androidapp.ui.theme.JournalingCompColor
 
 
 @Composable
@@ -52,6 +60,7 @@ fun JournalingScreenComposable() {
         journal = viewModel.journal.value,
         objectId = viewModel.objectId.value,
         onTitleChanged = { viewModel.updateTitle(title = it) },
+        onJournalChanged = {viewModel.updateJournal(journal = it)},
         onObjectIdChanged = { viewModel.updateObjectId(id = it) },
         onInsertClicked = { viewModel.insertNote() },
         onUpdateClicked = { viewModel.updateNote() },
@@ -69,6 +78,7 @@ fun JournalingScreen(
     journal: String,
     objectId: String,
     onTitleChanged: (String) -> Unit,
+    onJournalChanged: (String) -> Unit,
     onObjectIdChanged: (String) -> Unit,
     onInsertClicked: () -> Unit,
     onUpdateClicked: () -> Unit,
@@ -84,6 +94,7 @@ fun JournalingScreen(
                 journal = journal,
                 objectId = objectId,
                 onTitleChanged = onTitleChanged,
+                onJournalChanged = onJournalChanged,
                 onObjectIdChanged = onObjectIdChanged,
                 onInsertClicked = onInsertClicked,
                 onUpdateClicked = onUpdateClicked,
@@ -94,6 +105,7 @@ fun JournalingScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JournalingContent(
     data: List<Note>,
@@ -102,17 +114,18 @@ fun JournalingContent(
     journal: String,
     objectId: String,
     onTitleChanged: (String) -> Unit,
+    onJournalChanged: (String) -> Unit,
     onObjectIdChanged: (String) -> Unit,
     onInsertClicked: () -> Unit,
     onUpdateClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
     onFilterClicked: () -> Unit
 ) {
-    //
+    // This holds basically everything on the screen
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 24.dp),
+            .padding(all = 5.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -136,6 +149,84 @@ fun JournalingContent(
             // This row is so that the text fields are next to each other horizontally
             Row {
 
+                var expanded by remember { mutableStateOf(false) }
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = JournalingCompColor,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .clickable { expanded = !expanded }, // Toggle expansion on click
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .animateContentSize() // Enables smooth size transitions
+                    ) {
+//                Text(text = "Your journal of the day", style = TextStyle(fontWeight = FontWeight.Bold))
+
+                        // Title (editable by user)
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = Color.Transparent)
+                                .padding(start = 5.dp, top = 10.dp),
+                            value = title,
+                            onValueChange = onTitleChanged,
+                            placeholder = {
+                                Text(
+                                    "Your journal of the day",
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp
+                                )
+                            },
+                            textStyle = TextStyle(color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                            shape = RoundedCornerShape(8.dp), // Customize the shape (rounded corners)
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent, // Set background color
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent, // Remove underline when focused
+                                unfocusedIndicatorColor = Color.Transparent, // Remove underline when not focused
+                            )
+                        )
+
+                        Spacer(modifier = Modifier.height(2.dp))
+
+                        // Content (editable by user)
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = Color.Transparent)
+                                .padding(start = 8.dp),
+                            value = journal,
+                            onValueChange = onJournalChanged,
+                            placeholder = {
+                                Text (
+                                    "Start writing...",
+                                    color = DarkGreyGreenColor,
+                                    fontSize = 15.sp
+                                )
+                            },
+                            textStyle = TextStyle(color = DarkGreyGreenColor, fontSize = 15.sp),  // Set the desired text color
+
+                            maxLines = if (expanded) Int.MAX_VALUE else 1 ,// Expandable behavior
+                            shape = RoundedCornerShape(8.dp), // Customize the shape (rounded corners)
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent, // Set background color
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent, // Remove underline when focused
+                                unfocusedIndicatorColor = Color.Transparent, // Remove underline when not focused
+                            )
+                        )
+                        QuestionMarkWithTooltip()
+                    }
+                }
+
+
                 // This is the first text field that has the object id
                 TextField(
                     modifier = Modifier.weight(1f),
@@ -146,14 +237,14 @@ fun JournalingContent(
                 Spacer(modifier = Modifier.width(12.dp))
 
 
-                // This is the second text field that has the Title text field
-                TextField(
-                    modifier = Modifier.weight(1f),
-                    value = title,
-                    onValueChange = onTitleChanged,
-                    placeholder = { Text(text = "Title")}
-
-                )
+//                // This is the second text field that has the Title text field
+//                TextField(
+//                    modifier = Modifier.weight(1f),
+//                    value = title,
+//                    onValueChange = onTitleChanged,
+//                    placeholder = { Text(text = "Title")}
+//
+//                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -185,64 +276,7 @@ fun JournalingContent(
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-
-            // This is the list of items
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(items = data, key = { it._id.toHexString() }) {
-                    NoteView (
-                        id = it._id.toHexString(),
-                        title = it.title,
-                        timestamp = it.timestamp
-                    )
-                }
-            }
         }
     }
 }
 
-@Composable
-fun NoteView(id:String, title: String, timestamp: RealmInstant) {
-    Row (modifier = Modifier.padding(bottom = 24.dp)){
-        Column (modifier = Modifier.weight(1f)){
-            Text(
-                text = title,
-                style = TextStyle(
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-            SelectionContainer {
-                Text(
-                    text = id,
-                    style = TextStyle(
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                        fontWeight = FontWeight.Normal
-                    )
-                )
-            }
-        }
-        Column (
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.End
-        ){
-            Text(
-                text = SimpleDateFormat("hh:mm a", Locale.getDefault())
-                    .format(Date.from(timestamp.toInstant())).uppercase(),
-                style = TextStyle (
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = FontWeight.Normal
-                )
-            )
-        }
-    }
-}
-
-fun RealmInstant.toInstant(): Instant {
-    val sec: Long = this.epochSeconds
-    val nano: Int = this.nanosecondsOfSecond
-    return if (sec >= 0) {
-        Instant.ofEpochSecond(sec, nano.toLong())
-    } else {
-        Instant.ofEpochSecond(sec - 1, 1_000_000 + nano.toLong())
-    }
-}

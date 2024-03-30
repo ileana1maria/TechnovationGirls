@@ -26,20 +26,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.androidapp.ui.journalingscreen.JournalingUiComposable
-
 import com.example.androidapp.ui.theme.IconColor
 import com.example.androidapp.ui.theme.IndicatorColor
 import com.example.androidapp.ui.theme.NavBarColor
 import com.example.androidapp.ui.theme.SelectedIconColor
 import com.example.myapplication.screen.JournalingScreenComposable
-
-//import com.example.androidapp.ui.homescreen.HomeScreen
-//import com.example.androidapp.ui.aiscreen.AiScreen
-//import com.example.androidapp.ui.formscreen.FormScreen
-//import com.example.androidapp.ui.journalingscreen.JournalingScreen
-//import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
-
+import com.example.androidapp.ui.homescreen.HomeScreen
+import com.example.androidapp.ui.aiscreen.AiScreen
+import com.example.androidapp.ui.formscreen.FormScreen
+import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
 
 
 
@@ -131,55 +126,5 @@ fun BottomNavigationBar(
                 )
             )
         }
-    }
-}
-
-@Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Home screen")
-    }
-}
-
-//@Composable
-//fun JournalingScreen() {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ){
-//
-//    }
-//}
-
-@Composable
-fun TrackProgressScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Track progress screen")
-    }
-}
-
-@Composable
-fun AiScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Ai screen")
-    }
-}
-
-@Composable
-fun FormScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Form screen")
     }
 }
