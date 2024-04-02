@@ -1,7 +1,6 @@
 package com.example.androidapp.ui.journalingscreen.data
 
 import com.example.androidapp.ui.journalingscreen.model.Note
-import com.example.androidapp.ui.journalingscreen.model.NoteItem
 import kotlinx.coroutines.flow.Flow
 import org.mongodb.kbson.ObjectId
 

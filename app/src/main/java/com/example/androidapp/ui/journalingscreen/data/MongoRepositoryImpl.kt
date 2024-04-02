@@ -2,7 +2,6 @@ package com.example.androidapp.ui.journalingscreen.data
 
 import android.util.Log
 import com.example.androidapp.ui.journalingscreen.model.Note
-import com.example.androidapp.ui.journalingscreen.model.NoteItem
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow

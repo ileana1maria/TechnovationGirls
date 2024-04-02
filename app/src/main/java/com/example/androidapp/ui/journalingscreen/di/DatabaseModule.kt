@@ -3,7 +3,6 @@ package com.example.androidapp.ui.journalingscreen.di
 import com.example.androidapp.ui.journalingscreen.data.MongoRepository
 import com.example.androidapp.ui.journalingscreen.data.MongoRepositoryImpl
 import com.example.androidapp.ui.journalingscreen.model.Note
-import com.example.androidapp.ui.journalingscreen.model.NoteItem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +22,7 @@ object DatabaseModule {
     fun provideRealm(): Realm {
         val config = RealmConfiguration.Builder(
             schema = setOf(
-                Note::class, NoteItem::class
+                Note::class
 //            ) as Set<KClass<out TypedRealmObject>>
             )
         )

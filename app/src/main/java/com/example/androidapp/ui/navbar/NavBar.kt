@@ -1,10 +1,6 @@
 package com.example.androidapp.ui.navbar
 
-import android.content.Intent
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,10 +9,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,10 +24,12 @@ import com.example.androidapp.ui.theme.IconColor
 import com.example.androidapp.ui.theme.IndicatorColor
 import com.example.androidapp.ui.theme.NavBarColor
 import com.example.androidapp.ui.theme.SelectedIconColor
-import com.example.myapplication.screen.JournalingScreenComposable
+import com.example.androidapp.ui.journalingscreen.JournalingScreenComposable
 import com.example.androidapp.ui.homescreen.HomeScreen
 import com.example.androidapp.ui.aiscreen.AiScreen
+
 import com.example.androidapp.ui.formscreen.FormScreen
+import com.example.androidapp.ui.journalingscreen.NoteScreen
 import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
 
 
@@ -53,7 +49,13 @@ fun Navigation(navController: NavHostController) {
 //            // Start the Journaling Activity
 //            val intent = Intent(context, JournalingActivity::class.java)
 //            context.startActivity(intent)
-            JournalingScreenComposable()
+            JournalingScreenComposable(onNavigateToNoteScreen = {
+                navController.navigate("notescreen")
+            })
+        }
+
+        composable("notescreen") {
+            NoteScreen()
         }
 
         composable("trackprogress") {
@@ -67,6 +69,10 @@ fun Navigation(navController: NavHostController) {
         composable("form") {
             FormScreen()
         }
+
+
+
+
     }
 }
 

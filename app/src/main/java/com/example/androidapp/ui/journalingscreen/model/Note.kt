@@ -20,16 +20,10 @@ class Note : RealmObject {
     var title: String = ""
     var journal: String = ""
 
-    // to-many
-    var notesitem: RealmList<NoteItem> = realmListOf()
     @Ignore
     var noteColors = listOf(
         Purple80, PurpleGrey80,
         Pink80, Purple40
     )
     var timestamp: RealmInstant = RealmInstant.now()
-}
-
-class NoteItem: RealmObject {
-    var content: String = ""
 }
