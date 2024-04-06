@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,6 +28,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -42,15 +46,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.androidapp.ui.journalingscreen.model.Note
 import com.example.androidapp.ui.theme.DarkGreyGreenColor
 import com.example.androidapp.ui.theme.JournalingCompColor
+import io.realm.kotlin.types.RealmInstant
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
 fun NoteScreen() {
     val viewModel: JournalingViewModel = hiltViewModel()
+    val data by viewModel.data
 
     JournalingScreen(
+        data = data,
         title = viewModel.title.value,
         journal = viewModel.journal.value,
         objectId = viewModel.objectId.value,
@@ -65,6 +77,7 @@ fun NoteScreen() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun JournalingScreen(
+    data: List<Note>,
     title: String,
     journal: String,
     objectId: String,
@@ -77,6 +90,7 @@ fun JournalingScreen(
     Scaffold (
         content = {
             JournalingContent(
+                data = data,
                 title = title,
                 journal = journal,
                 objectId = objectId,
@@ -92,6 +106,7 @@ fun JournalingScreen(
 
 @Composable
 fun JournalingContent(
+    data: List<Note>,
     title: String,
     journal: String,
     objectId: String,
@@ -220,9 +235,83 @@ fun JournalingContent(
                         ) {
                             Text(text = "Save")
                         }
+
+//                        LazyColumn(modifier = Modifier.weight(1f)) {
+//                            items(items = data, key = { it._id.toHexString() }) {
+//                                NoteView (
+//                                    id = it._id.toHexString(),
+//                                    title = it.title,
+//                                    journal = it.journal,
+//                                    timestamp = it.timestamp
+//                                )
+//                            }
+//                        }
                     }
                 }
             }
         }
     }
 }
+
+//@Composable
+//fun NoteView(
+//    id:String,
+//    title: String,
+//    journal: String,
+//    timestamp: RealmInstant
+//) {
+//    Row (
+//        modifier = Modifier.padding(bottom = 24.dp)
+//    ) {
+//        Column (
+//            modifier = Modifier.weight(1f)
+//        ) {
+//            Text(
+//                text = title,
+//                style = TextStyle(
+//                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            )
+//            Text(
+//                text = journal,
+//                style = TextStyle(
+//                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
+//                    fontWeight = FontWeight.Normal
+//                )
+//            )
+//            SelectionContainer {
+//                Text(
+//                    text = id,
+//                    style = TextStyle(
+//                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+//                        fontWeight = FontWeight.Normal
+//                    )
+//                )
+//            }
+//        }
+//        Column (
+//            verticalArrangement = Arrangement.Center,
+//            horizontalAlignment = Alignment.End
+//        ){
+//            Text(
+//                text = SimpleDateFormat("hh:mm a", Locale.getDefault())
+//                    .format(Date.from(timestamp.toInstant())).uppercase(),
+//                style = TextStyle (
+//                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+//                    fontWeight = FontWeight.Normal
+//                )
+//            )
+//        }
+//    }
+//}
+
+//fun RealmInstant.toInstant(): Instant {
+//    val sec: Long = this.epochSeconds
+//    val nano: Int = this.nanosecondsOfSecond
+//    return if (sec >= 0) {
+//        Instant.ofEpochSecond(sec, nano.toLong())
+//    } else {
+//        Instant.ofEpochSecond(sec - 1, 1_000_000 + nano.toLong())
+//    }
+//}
