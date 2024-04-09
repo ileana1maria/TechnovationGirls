@@ -1,10 +1,6 @@
 package com.example.androidapp.ui.navbar
 
-import android.content.Intent
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,10 +9,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,20 +20,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-//import com.example.androidapp.ui.journalingscreen.JournalingActivity
-
 import com.example.androidapp.ui.theme.IconColor
 import com.example.androidapp.ui.theme.IndicatorColor
 import com.example.androidapp.ui.theme.NavBarColor
 import com.example.androidapp.ui.theme.SelectedIconColor
 import com.example.myapplication.screen.JournalingScreenComposable
-
-//import com.example.androidapp.ui.homescreen.HomeScreen
-//import com.example.androidapp.ui.aiscreen.AiScreen
-//import com.example.androidapp.ui.formscreen.FormScreen
-//import com.example.androidapp.ui.journalingscreen.JournalingScreen
-//import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
-
+import com.example.androidapp.ui.homescreen.HomeScreen
+import com.example.androidapp.ui.aiscreen.AiScreen
+import com.example.androidapp.ui.formscreen.AfterButtonFormScreen
+import com.example.androidapp.ui.formscreen.IntroductionScreen
+import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
 
 
 
@@ -58,7 +48,6 @@ fun Navigation(navController: NavHostController) {
 //            // Start the Journaling Activity
 //            val intent = Intent(context, JournalingActivity::class.java)
 //            context.startActivity(intent)
-
             JournalingScreenComposable()
         }
 
@@ -71,7 +60,13 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable("form") {
-            FormScreen()
+            IntroductionScreen(onNavigateToAfterButtonFormScreen = {
+              navController.navigate("afterButtonFormScreen")
+            })
+        }
+
+        composable("afterButtonFormScreen") {
+            AfterButtonFormScreen()
         }
     }
 }
@@ -132,55 +127,5 @@ fun BottomNavigationBar(
                 )
             )
         }
-    }
-}
-
-@Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Home screen")
-    }
-}
-
-//@Composable
-//fun JournalingScreen() {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ){
-//
-//    }
-//}
-
-@Composable
-fun TrackProgressScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Track progress screen")
-    }
-}
-
-@Composable
-fun AiScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Ai screen")
-    }
-}
-
-@Composable
-fun FormScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        Text(text = "Form screen")
     }
 }

@@ -13,3 +13,32 @@ val NavBarColor = Color(4286945648)
 val IconColor = Color(4280632371)
 val SelectedIconColor = Color(4294308318)
 val IndicatorColor = Color(4280632371)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+val IntroGreen = Color(4291552453)
+val ButtonGreen = Color(4288605603)
+val SometimesGreen = Color(4290760379)
+val RarelyGreen = Color(4290304740)
+val NoGreen = Color(4291282116)
