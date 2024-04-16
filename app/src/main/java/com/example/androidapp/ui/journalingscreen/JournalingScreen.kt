@@ -2,12 +2,15 @@ package com.example.androidapp.ui.journalingscreen
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,42 +48,224 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.androidapp.R
 import com.example.androidapp.ui.journalingscreen.model.Note
 import com.example.androidapp.ui.theme.DarkGreyGreenColor
 import com.example.androidapp.ui.theme.JournalingCompColor
+import com.example.androidapp.ui.theme.MoodCompColor
+import com.example.androidapp.ui.theme.NoteColor1
+import com.example.androidapp.ui.theme.NoteColor2
+import com.example.androidapp.ui.theme.NoteColor3
+import com.example.androidapp.ui.theme.NoteColor4
+import com.example.androidapp.ui.theme.NoteColor5
+import com.example.androidapp.ui.theme.NoteColor6
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit) {
 
-    JFloatingActionButton {
-        onNavigateToNoteScreen()
+    Scaffold (
+        floatingActionButton = {
+            JFloatingActionButton {
+                onNavigateToNoteScreen()
+            }
+        },
+    ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(start = 10.dp, top = 30.dp, end = 10.dp, bottom = 170.dp)
+        ) {
+
+            val value = ""
+            TextField(
+                modifier = Modifier
+                    .fillMaxSize(),
+                value = value,
+                placeholder = {
+                    Text(
+                        "Search",
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                },
+                onValueChange = {},
+
+                shape = RoundedCornerShape(10.dp),
+
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent, // Remove underline when focused
+                    unfocusedIndicatorColor = Color.Transparent, // Remove underline when not focused
+                )
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            NotePart(
+                title = "Today was a great day",
+                date = "16 April",
+                content = "My day started like usual, woke up, went to school, came back home and ate. However, ",
+                color = NoteColor1,
+                id = R.drawable.mood1
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "Worst day of my life!",
+                date = "15 April",
+                content = "Not only did I wake up with nausea but also with severe stomach ache. ",
+                color = NoteColor2,
+                id = R.drawable.mood2
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "At the aquarium",
+                date = "14 April",
+                content = "Today I tried something new and exciting! I went to the aquarium! ",
+                color = NoteColor6,
+                id = R.drawable.mood6
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "The walk",
+                date = "13 April",
+                content = "I realised that I rarely go on walks, so I decided to try it out and it was actually really enjoyable",
+                color = NoteColor4,
+                id = R.drawable.mood4
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "School",
+                date = "12 April",
+                content = "I want to address one of my biggest problems that being school",
+                color = NoteColor5,
+                id = R.drawable.mood5
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "Nausea",
+                date = "11 April",
+                content = "I realised that journaling this way really helps mentally",
+                color = NoteColor2,
+                id = R.drawable.mood2
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "No one to help me",
+                date = "10 April",
+                content = "It's been difficult to remain consistent in doing this, but I am trying my best",
+                color = NoteColor2,
+                id = R.drawable.mood2
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "All by myself",
+                date = "9 April",
+                content = "Dear diary,I am writing because you are my only hope. I am really in a dark zone right now.",
+                color = NoteColor2,
+                id = R.drawable.mood2
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            NotePart(
+                title = "Trying out this app!",
+                date = "8 April",
+                content = "I am really excited to use this app! It looks really calming too!",
+                color = NoteColor2,
+                id = R.drawable.mood5
+            )
+        }
     }
 }
 
-//        var clickedj by remember { mutableStateOf(false) }
-//
-//        val iconModifier = Modifier
-//            .size(30.dp)
-//            .offset(x = 0.dp, y = 0.dp)
-//            .clickable { clickedj = !clickedj }
-//
-//        Icon(
-//            imageVector = Icons.Default.ArrowForward,
-//            contentDescription = "Go to icon",
-//            modifier = iconModifier
-//        )
-//        if (clickedj) {
-//            // Here I have to save the title + the journal
-//            NoteScreen()
-//        }
+@Composable
+fun NotePart(
+    title: String,
+    date: String,
+    content: String,
+    color: Color,
+    id: Int
+) {
+    Card (
+        modifier = Modifier
+            .size(height = 75.dp, width = 600.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color,
+        )
 
+    ) {
+
+        Column (
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Row {
+                Image(
+                    painter = painterResource(id = id),
+                    contentDescription = "Image describing the mood",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(start = 3.dp, top = 15.dp)
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = title,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                    )
+                }
+            }
+
+            Row (
+                modifier = Modifier.padding(bottom = 5.dp, start = 45.dp)
+            ){
+                Text(
+                    text = date,
+                    color = Color.White,
+                )
+
+                Spacer(modifier = Modifier.width(5.dp))
+
+                Text(
+                    text = content,
+                    maxLines = 1,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun JFloatingActionButton(
@@ -88,237 +273,10 @@ fun JFloatingActionButton(
 ) {
     FloatingActionButton(
         onClick = { onClick() },
+        modifier = Modifier
+            .padding(bottom = 70.dp)
+            .size(80.dp)
     ) {
         Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
-
-//    val viewModel: JournalingViewModel = hiltViewModel()
-//    val data by viewModel.data
-//
-//    JournalingScreen(
-//        data = data,
-//        filtered = viewModel.filtered.value,
-//        title = viewModel.title.value,
-//        journal = viewModel.journal.value,
-//        objectId = viewModel.objectId.value,
-//        onTitleChanged = { viewModel.updateTitle(title = it) },
-//        onJournalChanged = {viewModel.updateJournal(journal = it)},
-//        onObjectIdChanged = { viewModel.updateObjectId(id = it) },
-//        onInsertClicked = { viewModel.insertNote() },
-//        onUpdateClicked = { viewModel.updateNote() },
-//        onDeleteClicked = { viewModel.deleteNote() },
-//        onFilterClicked = { viewModel.filterData() }
-//    )
-
-
-//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-//@Composable
-//fun JournalingScreen(
-//    data: List<Note>,
-//    filtered: Boolean,
-//    title: String,
-//    journal: String,
-//    objectId: String,
-//    onTitleChanged: (String) -> Unit,
-//    onJournalChanged: (String) -> Unit,
-//    onObjectIdChanged: (String) -> Unit,
-//    onInsertClicked: () -> Unit,
-//    onUpdateClicked: () -> Unit,
-//    onDeleteClicked: () -> Unit,
-//    onFilterClicked: () -> Unit
-//){
-//    Scaffold (
-//        content = {
-//            JournalingContent(
-//                data = data,
-//                filtered = filtered,
-//                title = title,
-//                journal = journal,
-//                objectId = objectId,
-//                onTitleChanged = onTitleChanged,
-//                onJournalChanged = onJournalChanged,
-//                onObjectIdChanged = onObjectIdChanged,
-//                onInsertClicked = onInsertClicked,
-//                onUpdateClicked = onUpdateClicked,
-//                onDeleteClicked = onDeleteClicked,
-//                onFilterClicked = onFilterClicked
-//            )
-//        }
-//    )
-//}
-
-
-//@Composable
-//fun JournalingContent(
-//    data: List<Note>,
-//    filtered: Boolean,
-//    title: String,
-//    journal: String,
-//    objectId: String,
-//    onTitleChanged: (String) -> Unit,
-//    onJournalChanged: (String) -> Unit,
-//    onObjectIdChanged: (String) -> Unit,
-//    onInsertClicked: () -> Unit,
-//    onUpdateClicked: () -> Unit,
-//    onDeleteClicked: () -> Unit,
-//    onFilterClicked: () -> Unit
-//) {
-//    // This holds basically everything on the screen
-//    Column (
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(all = 5.dp),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        // This column holds the 2 text fields and the row of buttons
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .verticalScroll(rememberScrollState()) // Enable scrolling
-//                .padding(5.dp)
-//        ) {
-//            // This holds the two Mood and Symptoms cards
-//            Column (
-//                modifier = Modifier
-//                    .fillMaxSize()
-//            ) {
-//                MoodComposable()
-//                Spacer(modifier = Modifier.width(10.dp))
-//                SymptomsComposable()
-//                Spacer(modifier = Modifier.width(10.dp))
-//            }
-//            // This row is so that the text fields are next to each other horizontally
-//            Row {
-//
-//                var expanded by remember { mutableStateOf(false) }
-//                Card(
-//                    colors = CardDefaults.cardColors(
-//                        containerColor = JournalingCompColor,
-//                    ),
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(10.dp)
-//                        .clickable { expanded = !expanded }, // Toggle expansion on click
-//                ) {
-//                    Column(
-//                        modifier = Modifier
-//                            .padding(16.dp)
-//                            .animateContentSize() // Enables smooth size transitions
-//                    ) {
-////                Text(text = "Your journal of the day", style = TextStyle(fontWeight = FontWeight.Bold))
-//
-//                        // Title (editable by user)
-//                        TextField(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .background(color = Color.Transparent)
-//                                .padding(start = 5.dp, top = 10.dp),
-//                            value = title,
-//                            onValueChange = onTitleChanged,
-//                            placeholder = {
-//                                Text(
-//                                    "Your journal of the day",
-//                                    color = Color.White,
-//                                    fontWeight = FontWeight.Bold,
-//                                    fontSize = 20.sp
-//                                )
-//                            },
-//                            textStyle = TextStyle(color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold),
-//                            shape = RoundedCornerShape(8.dp), // Customize the shape (rounded corners)
-//                            colors = TextFieldDefaults.colors(
-//                                focusedContainerColor = Color.Transparent, // Set background color
-//                                unfocusedContainerColor = Color.Transparent,
-//                                disabledContainerColor = Color.Transparent,
-//                                focusedIndicatorColor = Color.Transparent, // Remove underline when focused
-//                                unfocusedIndicatorColor = Color.Transparent, // Remove underline when not focused
-//                            )
-//                        )
-//
-//                        Spacer(modifier = Modifier.height(2.dp))
-//
-//                        // Content (editable by user)
-//                        TextField(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .background(color = Color.Transparent)
-//                                .padding(start = 8.dp),
-//                            value = journal,
-//                            onValueChange = onJournalChanged,
-//                            placeholder = {
-//                                Text (
-//                                    "Start writing...",
-//                                    color = DarkGreyGreenColor,
-//                                    fontSize = 15.sp
-//                                )
-//                            },
-//                            textStyle = TextStyle(color = DarkGreyGreenColor, fontSize = 15.sp),  // Set the desired text color
-//
-//                            maxLines = if (expanded) Int.MAX_VALUE else 1 ,// Expandable behavior
-//                            shape = RoundedCornerShape(8.dp), // Customize the shape (rounded corners)
-//                            colors = TextFieldDefaults.colors(
-//                                focusedContainerColor = Color.Transparent, // Set background color
-//                                unfocusedContainerColor = Color.Transparent,
-//                                disabledContainerColor = Color.Transparent,
-//                                focusedIndicatorColor = Color.Transparent, // Remove underline when focused
-//                                unfocusedIndicatorColor = Color.Transparent, // Remove underline when not focused
-//                            )
-//                        )
-//                        QuestionMarkWithTooltip()
-//                    }
-//                }
-//
-//
-//                // This is the first text field that has the object id
-//                TextField(
-//                    modifier = Modifier.weight(1f),
-//                    value = objectId,
-//                    onValueChange = onObjectIdChanged,
-//                    placeholder = { Text(text = "Object ID")}
-//                )
-//                Spacer(modifier = Modifier.width(12.dp))
-
-
-//                // This is the second text field that has the Title text field
-//                TextField(
-//                    modifier = Modifier.weight(1f),
-//                    value = title,
-//                    onValueChange = onTitleChanged,
-//                    placeholder = { Text(text = "Title")}
-//
-//                )
-//            }
-//
-//            Spacer(modifier = Modifier.height(24.dp))
-//
-//            // This is the row that has the buttons
-//            Row (
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .horizontalScroll(state = rememberScrollState()),
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ){
-//                Button(onClick = onInsertClicked) {
-//                    Text(text = "Add")
-//                }
-//                Spacer(modifier = Modifier.width(6.dp))
-//
-//                Button(onClick = onUpdateClicked) {
-//                    Text(text = "Update")
-//                }
-//                Spacer(modifier = Modifier.width(6.dp))
-//
-//                Button(onClick = onDeleteClicked) {
-//                    Text(text = "Delete")
-//                }
-//                Spacer(modifier = Modifier.width(6.dp))
-//
-//                Button(onClick = onFilterClicked) {
-//                    Text(text = if(filtered) "Clear" else "Filter")
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(24.dp))
-//        }
-//    }
-//}

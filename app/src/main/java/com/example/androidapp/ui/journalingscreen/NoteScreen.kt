@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,23 +11,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -49,11 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.androidapp.ui.journalingscreen.model.Note
 import com.example.androidapp.ui.theme.DarkGreyGreenColor
 import com.example.androidapp.ui.theme.JournalingCompColor
-import io.realm.kotlin.types.RealmInstant
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.util.Date
-import java.util.Locale
 
 
 @Composable
@@ -99,6 +84,7 @@ fun JournalingScreen(
                 onObjectIdChanged = onObjectIdChanged,
                 onInsertClicked = onInsertClicked,
                 onUpdateClicked = onUpdateClicked,
+
             )
         }
     )
@@ -120,7 +106,8 @@ fun JournalingContent(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 5.dp),
+            .verticalScroll(rememberScrollState())
+            .padding(start = 5.dp, top = 5.dp, end = 5.dp, bottom = 150.dp,),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -129,7 +116,7 @@ fun JournalingContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()) // Enable scrolling
+                //.verticalScroll(rememberScrollState()) // Enable scrolling
                 .padding(5.dp)
         ) {
             // This holds the two Mood and Symptoms cards
@@ -225,31 +212,29 @@ fun JournalingContent(
                             )
                         )
                         QuestionMarkWithTooltip()
-
-                        // Button (Add)
-                        Button(
-                            onClick = onInsertClicked,
-                            modifier = Modifier
-                                .fillMaxWidth() // Expand to full width
-                                .padding(top = 8.dp) // Add top padding
-                        ) {
-                            Text(text = "Save")
-                        }
-
-//                        LazyColumn(modifier = Modifier.weight(1f)) {
-//                            items(items = data, key = { it._id.toHexString() }) {
-//                                NoteView (
-//                                    id = it._id.toHexString(),
-//                                    title = it.title,
-//                                    journal = it.journal,
-//                                    timestamp = it.timestamp
-//                                )
-//                            }
-//                        }
                     }
                 }
             }
         }
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .fillMaxWidth() // Expand to full width
+                .padding(top = 8.dp, start = 15.dp, end = 15.dp) // Add top padding
+        ) {
+            Text(text = "Save")
+        }
+
+//        LazyColumn(modifier = Modifier.weight(1f)) {
+//            items(items = data, key = { it._id.toHexString() }) {
+//                NoteView (
+//                    id = it._id.toHexString(),
+//                    title = it.title,
+//                    journal = it.journal,
+//                    timestamp = it.timestamp
+//                )
+//            }
+//        }
     }
 }
 
@@ -293,7 +278,7 @@ fun JournalingContent(
 //        Column (
 //            verticalArrangement = Arrangement.Center,
 //            horizontalAlignment = Alignment.End
-//        ){
+//        ) {
 //            Text(
 //                text = SimpleDateFormat("hh:mm a", Locale.getDefault())
 //                    .format(Date.from(timestamp.toInstant())).uppercase(),
@@ -305,7 +290,7 @@ fun JournalingContent(
 //        }
 //    }
 //}
-
+//
 //fun RealmInstant.toInstant(): Instant {
 //    val sec: Long = this.epochSeconds
 //    val nano: Int = this.nanosecondsOfSecond

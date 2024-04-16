@@ -58,6 +58,7 @@ fun Navigation(navController: NavHostController) {
             NoteScreen()
         }
 
+
         composable("trackprogress") {
             TrackProgressScreen()
         }
