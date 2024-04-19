@@ -85,11 +85,13 @@ fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit) {
                 .padding(start = 10.dp, top = 30.dp, end = 10.dp, bottom = 170.dp)
         ) {
 
-            val value = ""
+            var searchTextFieldState by remember {
+                mutableStateOf("")
+            }
             TextField(
                 modifier = Modifier
                     .fillMaxSize(),
-                value = value,
+                value = searchTextFieldState,
                 placeholder = {
                     Text(
                         "Search",
@@ -98,7 +100,9 @@ fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit) {
                         fontSize = 20.sp
                     )
                 },
-                onValueChange = {},
+                onValueChange = {
+                    searchTextFieldState = it
+                },
 
                 shape = RoundedCornerShape(10.dp),
 
