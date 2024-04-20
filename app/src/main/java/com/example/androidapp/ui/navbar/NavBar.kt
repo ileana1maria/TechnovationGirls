@@ -37,8 +37,6 @@ import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    val context = LocalContext.current
-
     NavHost(navController = navController, startDestination = "home") {
 
         composable("home") {
@@ -46,18 +44,16 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable("journaling") {
-//            // Start the Journaling Activity
-//            val intent = Intent(context, JournalingActivity::class.java)
-//            context.startActivity(intent)
             JournalingScreenComposable(onNavigateToNoteScreen = {
                 navController.navigate("notescreen")
             })
         }
 
         composable("notescreen") {
-            NoteScreen()
+            NoteScreen(onNavigateToJournalingScreen = {
+                navController.navigate("journaling")
+            })
         }
-
 
         composable("trackprogress") {
             TrackProgressScreen()
@@ -70,10 +66,6 @@ fun Navigation(navController: NavHostController) {
         composable("form") {
             FormScreen()
         }
-
-
-
-
     }
 }
 

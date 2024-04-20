@@ -31,18 +31,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.androidapp.ui.journalingscreen.model.Note
 import com.example.androidapp.ui.theme.DarkGreyGreenColor
 import com.example.androidapp.ui.theme.JournalingCompColor
 
 
 @Composable
-fun NoteScreen() {
+fun NoteScreen(onNavigateToJournalingScreen: () -> Unit) {
     val viewModel: JournalingViewModel = hiltViewModel()
     val data by viewModel.data
 
@@ -56,6 +61,7 @@ fun NoteScreen() {
         onObjectIdChanged = { viewModel.updateObjectId(id = it) },
         onInsertClicked = { viewModel.insertNote() },
         onUpdateClicked = { viewModel.updateNote() },
+        onNavigateToJournalingScreen
     )
 }
 
@@ -71,6 +77,7 @@ fun JournalingScreen(
     onObjectIdChanged: (String) -> Unit,
     onInsertClicked: () -> Unit,
     onUpdateClicked: () -> Unit,
+    onNavigateToJournalingScreen: () -> Unit
 ){
     Scaffold (
         content = {
@@ -84,6 +91,7 @@ fun JournalingScreen(
                 onObjectIdChanged = onObjectIdChanged,
                 onInsertClicked = onInsertClicked,
                 onUpdateClicked = onUpdateClicked,
+                onNavigateToJournalingScreen
 
             )
         }
@@ -101,6 +109,7 @@ fun JournalingContent(
     onObjectIdChanged: (String) -> Unit,
     onInsertClicked: () -> Unit,
     onUpdateClicked: () -> Unit,
+    onNavigateToJournalingScreen: () -> Unit
 ) {
     // This holds basically everything on the screen
     Column (
@@ -217,13 +226,21 @@ fun JournalingContent(
             }
         }
         Button(
-            onClick = { },
+            onClick = {onNavigateToJournalingScreen()},
             modifier = Modifier
                 .fillMaxWidth() // Expand to full width
                 .padding(top = 8.dp, start = 15.dp, end = 15.dp) // Add top padding
         ) {
             Text(text = "Save")
         }
+//        Button(
+//            onClick = { },
+//            modifier = Modifier
+//                .fillMaxWidth() // Expand to full width
+//                .padding(top = 8.dp, start = 15.dp, end = 15.dp) // Add top padding
+//        ) {
+//            Text(text = "Save")
+//        }
 
 //        LazyColumn(modifier = Modifier.weight(1f)) {
 //            items(items = data, key = { it._id.toHexString() }) {
@@ -237,6 +254,7 @@ fun JournalingContent(
 //        }
     }
 }
+
 
 //@Composable
 //fun NoteView(
