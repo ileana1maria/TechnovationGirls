@@ -30,6 +30,8 @@ import com.example.androidapp.ui.aiscreen.AiScreen
 
 import com.example.androidapp.ui.formscreen.FormScreen
 import com.example.androidapp.ui.journalingscreen.NoteScreen
+import com.example.androidapp.ui.profile.ProfileScreen
+import com.example.androidapp.ui.profile.ProfileScreenForNavigation
 import com.example.androidapp.ui.trackprogressscreen.TrackProgressScreen
 
 
@@ -40,13 +42,22 @@ fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home") {
 
         composable("home") {
-            HomeScreen()
+            HomeScreen(onNavigateToProfileScreen = {
+                navController.navigate("profilescreen")
+            })
         }
 
         composable("journaling") {
             JournalingScreenComposable(onNavigateToNoteScreen = {
                 navController.navigate("notescreen")
-            })
+            }, onNavigateToProfileScreen = {
+                navController.navigate("profilescreen")
+            }
+            )
+        }
+
+        composable("profilescreen") {
+            ProfileScreenForNavigation()
         }
 
         composable("notescreen") {
@@ -56,15 +67,21 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable("trackprogress") {
-            TrackProgressScreen()
+            TrackProgressScreen(onNavigateToProfileScreen = {
+                navController.navigate("profilescreen")
+            })
         }
 
         composable("ai") {
-            AiScreen()
+            AiScreen(onNavigateToProfileScreen = {
+                navController.navigate("profilescreen")
+            })
         }
 
         composable("form") {
-            FormScreen()
+            FormScreen(onNavigateToProfileScreen = {
+                navController.navigate("profilescreen")
+            })
         }
     }
 }

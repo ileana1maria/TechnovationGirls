@@ -1,12 +1,7 @@
 package com.example.androidapp.ui.journalingscreen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,28 +10,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -49,20 +35,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.androidapp.R
-import com.example.androidapp.ui.journalingscreen.model.Note
-import com.example.androidapp.ui.theme.DarkGreyGreenColor
-import com.example.androidapp.ui.theme.JournalingCompColor
-import com.example.androidapp.ui.theme.MoodCompColor
+import com.example.androidapp.ui.profile.ProfileIcon
 import com.example.androidapp.ui.theme.NoteColor1
 import com.example.androidapp.ui.theme.NoteColor2
-import com.example.androidapp.ui.theme.NoteColor3
 import com.example.androidapp.ui.theme.NoteColor4
 import com.example.androidapp.ui.theme.NoteColor5
 import com.example.androidapp.ui.theme.NoteColor6
@@ -70,7 +49,7 @@ import com.example.androidapp.ui.theme.NoteColor6
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
-fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit) {
+fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit, onNavigateToProfileScreen: () -> Unit) {
 
     Scaffold (
         floatingActionButton = {
@@ -84,6 +63,10 @@ fun JournalingScreenComposable(onNavigateToNoteScreen: () -> Unit) {
                 .verticalScroll(rememberScrollState())
                 .padding(start = 10.dp, top = 30.dp, end = 10.dp, bottom = 170.dp)
         ) {
+
+            ProfileIcon {
+                onNavigateToProfileScreen()
+            }
 
             var searchTextFieldState by remember {
                 mutableStateOf("")

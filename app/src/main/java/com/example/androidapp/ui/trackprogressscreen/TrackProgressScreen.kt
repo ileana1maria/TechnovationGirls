@@ -24,13 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.androidapp.R
+import com.example.androidapp.ui.profile.ProfileIcon
 import com.example.androidapp.ui.theme.EmojiCardColor
 import com.example.androidapp.ui.theme.TypCard1
 import com.example.androidapp.ui.theme.TypCard2
 import com.example.androidapp.ui.theme.TypCard3
 
 @Composable
-fun TrackProgressScreen() {
+fun TrackProgressScreen(onNavigateToProfileScreen: () -> Unit) {
 
     Column (
         modifier = Modifier
@@ -39,6 +40,10 @@ fun TrackProgressScreen() {
             .verticalScroll(rememberScrollState())
     )
     {
+        ProfileIcon {
+            onNavigateToProfileScreen()
+        }
+
         Graph()
 
         Spacer(modifier = Modifier.height(15.dp))
