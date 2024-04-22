@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
@@ -42,6 +44,7 @@ fun MyAiScreen() {
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxHeight(0.87f),
+           // .verticalScroll(rememberScrollState()),
 
         bottomBar = {
             MessageTextField(
@@ -203,7 +206,8 @@ fun MessageItem(message: Message) {
         Color.Green // Color for bot messages
     }
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         horizontalArrangement = if (message.sender == "User") Arrangement.End else Arrangement.Start
     ) {
         Box(
